@@ -1,0 +1,21 @@
+{
+  "name": "com.mih.com.mih.translate",
+  "author": "Lucas Lima",
+  "displayName": "Translate System",
+  "version": "1.0.1",
+  "type": "tool",
+  "unity": "2018.1",
+  "keywords": [
+    "unity",
+    "editor",
+    "translate"
+  ],
+  "description": "Editor extension for managing and adding translate to you game",
+  "samples": [
+    {
+      "displayName": "Examples",
+      "description": "A set of examples highlighting various features of the Translate package",
+      "path": "Samples~/Examples"
+    }
+  ]
+}
