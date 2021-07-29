@@ -58,7 +58,6 @@ namespace MadeInHouse.Translate
             LineSpace();
             selectedLanguage = EditorGUILayout.Popup("Selected Language", selectedLanguage, langList.ToArray());
             languageSelected = (Languages)selectedLanguage;
-            // LineSpace();
 
             if (GUILayout.Button("Update Language Selected"))
             {
@@ -150,6 +149,9 @@ namespace MadeInHouse.Translate
         {
             var filePath = "Assets/Resources/" + fileName + ".asset";
 
+            if (!AssetDatabase.IsValidFolder("Assets/Resources"))
+                AssetDatabase.CreateFolder("Assets", "Resources");
+            
             LanguageData data = new LanguageData();
             AssetDatabase.CreateAsset(data, filePath);
 
