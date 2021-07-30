@@ -9,7 +9,7 @@ namespace MadeInHouse.Translate
 {
     public class TranslateEditor : EditorWindow
     {
-        private Enum languageSelected = Languages.Portuguese;
+        private Enum languageSelected = Languages.English;
 
         private int mainToolbar = 0;
         private int languagesToolbar = 0;
@@ -61,8 +61,7 @@ namespace MadeInHouse.Translate
 
             if (GUILayout.Button("Update Language Selected"))
             {
-                var lang = FindObjectOfType<LanguageManager>();
-                lang.LoadLocazidedText(languageSelected.ToString());
+                LanguageManager.LoadLocazidedText(languageSelected.ToString());
             }
         }
 
@@ -86,18 +85,24 @@ namespace MadeInHouse.Translate
 
             if (GUILayout.Button("Update Other Language Keys With This Keys"))
             {
+                if (m_languageList.languages.Length == 0)
+                {
+                    Debug.LogError("Add language to list in language tab");
+                    return;
+                }
+
                 var mainData = Resources.Load<LanguageData>(m_languageList.languages[languagesToolbar].ToString());
-                var mainItems = mainData.langItems.items;
+                var mainItems = mainData.language.items;
 
                 foreach (var languages in m_languageList.languages)
                 {
                     LanguageData tempData = Resources.Load<LanguageData>(languages.ToString());
-                    var tempValues = tempData.langItems.items;
+                    var tempValues = tempData.language.items;
 
                     if (mainData != tempData)
                     {
                         Debug.Log(languages.ToString());
-                        tempData.langItems.items = new List<LanguageItem>();
+                        tempData.language.items = new List<LanguageItem>();
 
                         for (int i = 0; i < mainItems.Count; i++)
                         {
@@ -109,9 +114,9 @@ namespace MadeInHouse.Translate
                             }
 
                             LanguageItem item = new LanguageItem(mainItems[i].key, value);
-                            tempData.langItems.items.Add(item);
+                            tempData.language.items.Add(item);
 
-                            Debug.Log("ADD ITEM");
+                            Debug.Log("Add Item");
                         }
                     }
                 }
@@ -120,10 +125,16 @@ namespace MadeInHouse.Translate
 
         private void ItemsHandle()
         {
+            if (m_languageList.languages.Length == 0)
+            {
+                Debug.LogError("Add language to list in language tab");
+                return;
+            }
+            
             var fileName = m_languageList.languages[languagesToolbar].ToString();
             var obj = Resources.Load<LanguageData>(fileName);
             SerializedObject serializedObject = new SerializedObject(obj);
-            SerializedProperty serializedPropertyMyInt = serializedObject.FindProperty("langItems");
+            SerializedProperty serializedPropertyMyInt = serializedObject.FindProperty("language");
             EditorGUILayout.PropertyField(serializedPropertyMyInt);
         }
 
@@ -151,7 +162,7 @@ namespace MadeInHouse.Translate
 
             if (!AssetDatabase.IsValidFolder("Assets/Resources"))
                 AssetDatabase.CreateFolder("Assets", "Resources");
-            
+
             LanguageData data = new LanguageData();
             AssetDatabase.CreateAsset(data, filePath);
 
