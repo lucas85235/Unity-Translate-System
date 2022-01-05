@@ -14,6 +14,7 @@ namespace MadeInHouse.Translate
         public static string SaveLanguageKey { get => m_saveLanguageKey; }
 
         private static string m_languageSelected = "English";
+        public static string[] LanguageOptions { get => m_languageOptions; }
         private static string[] m_languageOptions = {
             Languages.English.ToString(),
             Languages.Portuguese.ToString(),
