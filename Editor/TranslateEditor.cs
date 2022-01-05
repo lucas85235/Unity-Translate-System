@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
+
 namespace MadeInHouse.Translate
 {
     public class TranslateEditor : EditorWindow
@@ -172,3 +174,5 @@ namespace MadeInHouse.Translate
         private void LineSpace() => GUILayout.Label("\n", EditorStyles.boldLabel);
     }
 }
+
+#endif
